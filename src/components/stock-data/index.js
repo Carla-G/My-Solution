@@ -9,33 +9,27 @@ export default function StockData() {
   const getStocksData = () => {
     axios
       .get(`https://jsonmock.hackerrank.com/api/stocks?date=${searchedData}`)
-      .then((response) => setData(response.data))
+      .then((response) => console.log(response.data.data))
   };
+
+  const {open, high, low, close} = data;
 
   return (
     <div className="layout-column align-items-center mt-50">
       <section className="layout-row align-items-center justify-content-center">
         <input type="text" className="large" placeholder="5-January-2000" id="app-input" data-testid="app-input" value={searchedData} onChange={e => setSearchedData(e.target.value)}/>
-        <button className="" id="submit-button" data-testid="submit-button">Search</button>
+        <button className="" id="submit-button" data-testid="submit-button" onClick={getStocksData}>Search</button>
       </section>
-      <ul className="mt-50 slide-up-fade-in styled" id="stockData" data-testid="stock-data">
-        <li className="py-10"></li>
-      </ul>
-      <div className="mt-50 slide-up-fade-in" id="no-result" data-testid="no-result"></div>
+      <div>
+      {data.length > 0 ?
+      (<ul className="mt-50 slide-up-fade-in styled" id="stockData" data-testid="stock-data">
+        <li className="py-10">Open: {open}</li>
+        <li className="py-10">High: {high}</li>
+        <li className="py-10">Low: {low}</li>
+        <li className="py-10">Close: {close}</li>
+      </ul>) :
+      <div className="mt-50 slide-up-fade-in" id="no-result" data-testid="no-result">No results found</div>}
+      </div>
     </div>
   );
 }
-function App() {
-
-
-
-
-  return (
-    <div className="App">
-      <DisplayEmployee employee={employee} />
-      <button type="button" onClick={getEmployee}>Get employee</button>
-    </div>
-  );
-}
-
-export default App;
